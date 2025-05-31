@@ -341,7 +341,6 @@ if (Class=="cleric"):
     atk_type = "piercing"
 if (Race=="dragon"):
     HPMAX=HPMAX*HPMAX
-    DR=1/5*STR+1/5*CON
 done="false"
 HP=HPMAX
 
@@ -478,8 +477,8 @@ if (trollfight=="true"):
     init_creature = 2+random.choice(aD20); {"1":1,"2":2,"3":3,"4":4,"5":5,"6":6,"7":7,"8":8,"9":9,"10":10,"11":11,"12":12,"13":13,"14":14,"15":15,"16":16,"17":17,"18":18,"19":19,"20":20}
     print (f"your initiative is {init_player}.")
     print (f"the troll's initiative is {init_creature}.")
-    trolldamage=-DR+4+random.choice(aD10); {"1":1,"2":2,"3":3,"4":4,"5":5,"6":6,"7":7,"8":8,"9":9,"10":10}
-    creaturedamage = max(trolldamage,0)
+    trolldamage=4+random.choice(aD10); {"1":1,"2":2,"3":3,"4":4,"5":5,"6":6,"7":7,"8":8,"9":9,"10":10}
+    creaturedamage = max(trolldamage-DR,0)
     if init_player>=init_creature:
         print("you go first")
         yourturn="true"
@@ -500,10 +499,12 @@ if (trollfight=="true"):
         trollhp=min(trollhpplayerturn+10,100)
         if trollhp>0:
             print ("the troll is at",trollhpplayerturn, "hp, but it has 10 automatic healing, so it is at",trollhp,"hp now, and it is his turn")
-            trolldamage=-DR+4+random.choice(aD10); {"1":1,"2":2,"3":3,"4":4,"5":5,"6":6,"7":7,"8":8,"9":9,"10":10}
-            creaturedamage = max(trolldamage,0)
+            trolldamage=4+random.choice(aD10); {"1":1,"2":2,"3":3,"4":4,"5":5,"6":6,"7":7,"8":8,"9":9,"10":10}
+            creaturedamage = max(trolldamage-DR,0)
+            HP=HP-creaturedamage
             print (f"the troll did {creaturedamage} damage, and you are at {HP} hp.")
         else:
             print ("the troll is at",trollhpplayerturn,"hp, you must have cheated, this fight is supposed to be impossible to win.\n You win (the cheater way)")
         if HP<=0:
             print ("you died, you lose")
+
