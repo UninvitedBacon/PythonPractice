@@ -11,18 +11,18 @@ while (valid=="false"):
         vaseintack = "true"
         valid = "true"
     elif option1=="2":
-        option2_2 = print ("The cat scratches you, but you stop it from breaking the vace")
+        option2_2 = print ("The cat scratches you, but you stop it from breaking the vase")
         catliving = "true"
         vaseintack = "true"
         valid = "true"
     elif option1=="3":
         option1_3_sucsess = random.choice (randomoptions)
-        if (option1_3_sucsess == "yes"):
+        if (option1_3_sucsess == "true"):
             option2_3a = print ("you catch it in time, and the vase is fine")
             catliving = "true"
             vaseintack = "true"
             valid = "true"
-        if (option1_3_sucsess=="no"):
+        if (option1_3_sucsess=="false"):
             option2_3b = print ("you do not catch the vase in time, and it shatters")
             catliving = "true"
             vaseintack = "flase"

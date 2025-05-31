@@ -1,3 +1,5 @@
+import time
+import os
 import random
 aD20=list(range(1, 21))
 aD12=list(range(1, 13))
@@ -27,6 +29,7 @@ LVL=1
 Class = ("N/A")
 Race = ("N/A")
 #ask for Race
+os.system('cls')
 while (done=="no"):
     Race = input ("What are you? (add a dot to the end to give info rather than choosing a race):  \n1=human \n2=elf \n3=dwarf \n4=orc \n5=grandparian \n")
     if (Race=="1"):
@@ -61,7 +64,11 @@ while (done=="no"):
     else:
          print ("error input",Race,"is invalid")
 done="no"
-#ask for class
+if Race=="elven":
+    print ("you are an elf")
+else:
+    print (f"you are a {Race}")
+#ask if Race!="elven":
 while (done=="no"):
     Class = input ("What is your class? add a dot to the end to give info rather than choosing a class \n1=wizard \n2=sorcerer \n3=fighter \n4=barbarion \n5=ranger \n6=cleric\n")
     if (Class=="1"):
@@ -341,6 +348,7 @@ if (Class=="cleric"):
     atk_type = "piercing"
 if (Race=="dragon"):
     HPMAX=HPMAX*HPMAX
+    DR = CON*STR/60
 done="false"
 HP=HPMAX
 
@@ -394,6 +402,7 @@ if (familiar=="toad"):
                         print (f"you deal {damage_real} damage")                    
                         print (f"the old man is at {1-damage_real} hp")
                         print ("the old man is dead")
+                        time.sleep(2)
                         print ("you grab the awesome map from his corpse")
                         havemap="true"
                 if (Option=="2"):
@@ -494,7 +503,10 @@ if (trollfight=="true"):
             print ("you died from a troll on the first turn. You lost.")
     while HP>0 and trollhpplayerturn>0:
         input (f"your damage is {attack} + 1d4. Click enter to roll")
-        damage_real = attack + random.choice(aD4); {"1":1,"2":2,"3":3,"4":4}
+        if Race!="dragon":
+            damage_real = attack + random.choice(aD4); {"1":1,"2":2,"3":3,"4":4}
+        else:
+            damage_real = attack + 3*random.choice(aD20); {"1":1,"2":2,"3":3,"4":4,"5":5,"6":6,"7":7,"8":8,"9":9,"10":10,"11":11,"12":12,"13":13,"14":14,"15":15,"16":16,"17":17,"18":18,"19":19,"20":20}
         trollhpplayerturn=min(trollhp,trollhp-damage_real)
         trollhp=min(trollhpplayerturn+10,100)
         if trollhp>0:
