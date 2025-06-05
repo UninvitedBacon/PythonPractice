@@ -8,12 +8,16 @@ aD8=list(range(1, 9))
 aD6=list(range(1, 7))
 aD4=list(range(1, 5))
 chaceoldman="false"
+Breakgame="false"
 trollfight="false"
 direction_headed="N/A"
 direction="N/A"
 havemap="false"
 oldmantalk="N/A"
 staying="N/A"
+zacks=65
+dragon="false"
+wanttoseejunk="false"
 DR=0
 def printstats():
     print ("STR=",STR)
@@ -57,10 +61,18 @@ while (done=="no"):
         print ("A orc is a strong idiot and is usually evil. They  ideal for a barbarion. Their stat changes are (+2,0,+2,-1,-2,-2)")
     elif (Race=="5."):
         print ("A grandparian looks simalar to a human, other than that they look 102 years older than they are. They are usually wizards and incapable of being any physical fighter class. Their stat changes are (-1,-1,-1,+1,+1,+1)")
-    elif (Race=="Nope, I want to cheat and be a dragon!"):
-        print ("OK, fine cheater, you have to be a sorcerer, and no familiar though!")
-        Race="dragon"
-        done="true"
+    elif (Race=="zw65gb"):
+        y=input ("Umm... I know that zack was 65 good boys, what is your point\n")
+        if y=="I'm zack":
+            x=input("no, you can't be zack\n")
+            if x=="You're wrong":
+                print ("ok, whatever, you are zack")
+                Race="zack"
+                done="true"
+            else:
+                print("just go pick your race")
+        else:
+            print ("whatever I don't know what you are talking about, just choose your race")
     else:
          print ("error input",Race,"is invalid")
 done="no"
@@ -119,10 +131,6 @@ while (done=="no"):
     elif (Race=="grandparian" and (Class=="fighter" or Class=="barbarian" or Class=="ranger")):
         print ("A grandparian can't be a fighter, barbarian, or ranger")
         done = ("no")
-    elif (Race=="dragon" and (Class=="fighter" or Class=="barbarian" or Class=="ranger" or Class=="wizard" or Class=="cleric")):
-        print ("I SAID YOU ONLY GET SORCERER YOU GRANDMA, THATS IT! YOU DON't GET TO BE A DRAGON ANYMORE!")
-        Race="human"
-        done = ("no")
 print ("You are a",Race,Class)
 #Calculate stats
 if (Race=="human"):
@@ -160,13 +168,13 @@ elif (Race=="grandparian"):
     INT=11
     WIS=11
     CHA=11
-elif (Race=="dragon"):
-    STR=50
-    DEX=2
-    CON=30
-    INT=31
-    WIS=32
-    CHA=31
+if (Race=="zack"):
+    STR=10
+    DEX=10
+    CON=10
+    INT=10
+    WIS=10
+    CHA=10
 if (Class=="wizard"):
     STR=STR-1
     DEX=DEX-1
@@ -298,10 +306,13 @@ while (done=="no"):
     else:
         print ("that is invalid, try again")
 #familiar
-if (Class=="wizard" or Class=="sorcerer" and Race!="dragon"):
+if (Class=="wizard" or Class=="sorcerer"):
     done="no"
     while(done=="no"):
-        familiar=input ("what is your familiar? add a dot for info. A familliar counts as the same level as you for pourposes of HP calculation \n1=raven \n2=owl \n3=rabbit \n4=toad \n")
+        if Race!="zack":
+            familiar=input ("what is your familiar? add a dot for info.\n1=raven \n2=owl \n3=rabbit \n4=toad \n")
+        else:
+            familiar=input ("what are your familiars (all of your good boys get the same familiar)? add a dot for info.\n1=raven \n2=owl \n3=rabbit \n4=toad \n")
         if (familiar=="1"):
             familiar="raven"
             done="yes"
@@ -326,7 +337,7 @@ if (Class=="wizard" or Class=="sorcerer" and Race!="dragon"):
     if (familiar!= "toad"):
         print (f"you chose a {familiar} as a familiar.")
 printstats()
-HPMAX=(max(CON-7,1))+3
+HPMAX=max(CON-4,1)
 HP=HPMAX
 if (Class=="wizard"):
     attack = 2+(INT-10)
@@ -335,30 +346,26 @@ if (Class=="sorcerer"):
     attack = 2+(CHA-10)
     atk_type = "magic"
 if (Class=="fighter"):
-    attack = 1+DEX-10
+    attack = 1+STR-10
     atk_type = "slashing"
 if (Class=="barbarian"):
     attack = 4+STR-10
     atk_type = "Crushing"
 if (Class=="ranger"):
-    attack = -1+DEX-10
+    attack = 2+DEX-10
     atk_type = "piercing"
 if (Class=="cleric"):
     attack = -2+DEX-10
     atk_type = "piercing"
-if (Race=="dragon"):
-    HPMAX=HPMAX*HPMAX
-    DR = CON*STR/60
+if (Race=="zack"):
+    HPMAX=HPMAX*65
 done="false"
 HP=HPMAX
 
 
 
 print ("your HP is",HP,)
-if Race!="dragon":
-    damage_real = attack + random.choice(aD4); {"1":1,"2":2,"3":3,"4":4}
-else:
-    damage_real = attack + 3*random.choice(aD20); {"1":1,"2":2,"3":3,"4":4,"5":5,"6":6,"7":7,"8":8,"9":9,"10":10,"11":11,"12":12,"13":13,"14":14,"15":15,"16":16,"17":17,"18":18,"19":19,"20":20}
+damage_real = attack + random.choice(aD4); {"1":1,"2":2,"3":3,"4":4}
 townpossible = ["vill", "berg", "shalic"]
 racepossible = ["dwarf", "elven", "orc", "grandparian", "human"]
 town = random.choice(townpossible)
@@ -368,10 +375,7 @@ while town2==town:
 racefake=Race
 while racefake==Race:
     racefake = random.choice(racepossible)
-if Race!="dragon":
-    print (f"as you are traveling from {Race}{town} to {racefake}{town2}, you see a old grandpa!")
-else:
-    print (f"as you are traveling from your cave to {racefake}{town2}, you see a old grandpa!")
+print (f"as you are traveling from {Race}{town} to {racefake}{town2}, you see a old grandpa!")
 if (familiar=="toad"):
     print ("the old man comes to talk to you, but after seeing your toad, he thinks you must be a moron, and avoides you.")
     while done=="false":
@@ -382,30 +386,44 @@ if (familiar=="toad"):
                 Option = input ("attack him or talk to him 1=attack 2=talk\n")
                 if (Option=="1"):
                     done="true"
+                    oldmancombat="true"
+                    oldhp=1
                     init_player = (DEX-10)+random.choice(aD20); {"1":1,"2":2,"3":3,"4":4,"5":5,"6":6,"7":7,"8":8,"9":9,"10":10,"11":11,"12":12,"13":13,"14":14,"15":15,"16":16,"17":17,"18":18,"19":19,"20":20}
                     init_creature = -2+random.choice(aD20); {"1":1,"2":2,"3":3,"4":4,"5":5,"6":6,"7":7,"8":8,"9":9,"10":10,"11":11,"12":12,"13":13,"14":14,"15":15,"16":16,"17":17,"18":18,"19":19,"20":20}
                     print (f"your initiative is {init_player}.")
-                    print (f"old man's initiative is {init_creature}.")
+                    print (f"the old man's initiative is {init_creature}.")
+                    olddamage=1
+                    creaturedamage = max(olddamage-DR,0)
                     if init_player>=init_creature:
                         print("you go first")
                         yourturn="true"
                     else:
-                        print ("he goes first, and punches you for 1 damage")
-                        HP=HP-1
-                        print ("you are now at {HP} hp, and it is your turn")
-                        yourturn="true"
-                    if yourturn=="true":
-                        while damage!="1" and damage!="2":
-                            damage = input (f"1=firebolt ({attack}+1d4 fire damage)\n2=ray of frost ({attack}+1d4 ice damage)\n")
-                            if damage!="1" and damage!="2":
-                                print (damage, "is invalid, try again")
-                        print (f"you deal {damage_real} damage")                    
-                        print (f"the old man is at {1-damage_real} hp")
-                        print ("the old man is dead")
-                        time.sleep(2)
+                        print (f"he goes first, and punches you for {creaturedamage} damage")
+                        HP=HP-creaturedamage
+                        print (f"you are now at {HP} hp, and it is your turn")
+                        if HP>0:
+                            yourturn="true"
+                        else:
+                            print ("you died from a old man on the first turn. You lost and you are terrible.")
+                    while HP>0 and oldhp>0:
+                        input (f"your damage is {attack} + 1d4. Click enter to roll")
+                        damage_real = attack + random.choice(aD4); {"1":1,"2":2,"3":3,"4":4}
+                        oldhp=min(oldhp-damage_real,oldhp)
+                        if oldhp>0:
+                            print ("the old man is at",oldhp, "hp, and it is your turn")
+                            olddamage=1
+                            creaturedamage = max(olddamage-DR,0)
+                            HP=HP-creaturedamage
+                            print (f"the old man did {creaturedamage} damage, and you are at {HP} hp.")
+                        else:
+                            print ("the old man is at",oldhp,"hp, you win the fight")
+                        if HP<=0:
+                            print ("you died, you must have cheated!")
+                            Breakgame="true"
+                    if Breakgame!="true":
                         print ("you grab the awesome map from his corpse")
                         havemap="true"
-                if (Option=="2"):
+                elif (Option=="2"):
                     print ("the old man talks to you and acts like nothing happend")
                     oldmantalk="true"
                     done="true"
@@ -468,6 +486,7 @@ if (havemap=="true"):
 done="false"
 if direction=="north":
     print ("You travel north for around a mile, but you do not see anything. After thinking about it for a while, you decide that is a good thing, because there is no way you would have defeated a dragon at LVL 1\ncongratulations, you finished the game (more may be added later) (lucky idiot way)")
+    dragon="true"
 elif direction=="east":
     print ("You go 3,000 feet tword the troll, and you see it. it is 15 feet tall and carring a club")
     trollfight="true"
@@ -481,7 +500,6 @@ elif staying=="true":
 
 if (trollfight=="true"):
     trollhp=100
-    trollhpplayerturn=100
     init_player = (DEX-10)+random.choice(aD20); {"1":1,"2":2,"3":3,"4":4,"5":5,"6":6,"7":7,"8":8,"9":9,"10":10,"11":11,"12":12,"13":13,"14":14,"15":15,"16":16,"17":17,"18":18,"19":19,"20":20}
     init_creature = 2+random.choice(aD20); {"1":1,"2":2,"3":3,"4":4,"5":5,"6":6,"7":7,"8":8,"9":9,"10":10,"11":11,"12":12,"13":13,"14":14,"15":15,"16":16,"17":17,"18":18,"19":19,"20":20}
     print (f"your initiative is {init_player}.")
@@ -501,22 +519,260 @@ if (trollfight=="true"):
             yourturn="true"
         else:
             print ("you died from a troll on the first turn. You lost.")
-    while HP>0 and trollhpplayerturn>0:
+    while HP>0 and trollhp>0:
         input (f"your damage is {attack} + 1d4. Click enter to roll")
-        if Race!="dragon":
-            damage_real = attack + random.choice(aD4); {"1":1,"2":2,"3":3,"4":4}
+        if Race=="zack":
+            while trollhp>0 and zacks>0:
+                damage_real = attack + random.choice(aD4); {"1":1,"2":2,"3":3,"4":4}
+                trollhp=min(trollhp,trollhp-damage_real)
+                if (trollhp>0):
+                    print (f"the troll is at {trollhp} hp, now do your next zack's attack")
+                zacks=zacks-1
+                time.sleep(.01)
         else:
-            damage_real = attack + 3*random.choice(aD20); {"1":1,"2":2,"3":3,"4":4,"5":5,"6":6,"7":7,"8":8,"9":9,"10":10,"11":11,"12":12,"13":13,"14":14,"15":15,"16":16,"17":17,"18":18,"19":19,"20":20}
-        trollhpplayerturn=min(trollhp,trollhp-damage_real)
-        trollhp=min(trollhpplayerturn+10,100)
+            damage_real = attack + random.choice(aD4); {"1":1,"2":2,"3":3,"4":4}
         if trollhp>0:
-            print ("the troll is at",trollhpplayerturn, "hp, but it has 10 automatic healing, so it is at",trollhp,"hp now, and it is his turn")
+            print ("the troll is at",trollhp, "hp, but it has 10 automatic healing")
+            trollhp=min(trollhp+10,100)
+            print (f"so it is at {trollhp} hp")
             trolldamage=4+random.choice(aD10); {"1":1,"2":2,"3":3,"4":4,"5":5,"6":6,"7":7,"8":8,"9":9,"10":10}
             creaturedamage = max(trolldamage-DR,0)
+            zacks=65*(HP/HPMAX)
             HP=HP-creaturedamage
             print (f"the troll did {creaturedamage} damage, and you are at {HP} hp.")
         else:
-            print ("the troll is at",trollhpplayerturn,"hp, you must have cheated, this fight is supposed to be impossible to win.\n You win (the cheater way)")
+            print ("the troll is at",trollhp,"hp, you must have cheated, this fight is supposed to be impossible to win.\n You win (the cheater way)")
         if HP<=0:
             print ("you died, you lose")
+if dragon=="true":
+    print ("after south north for about 12 miles you see a dragon. It looks like this")
+    print ("                                                                               ██                                         ")
+    print ("                                                                                 ██       █                               ")
+    print ("                                                                                   ██      ██                             ")
+    print ("                                                                                   ████████████                           ")
+    print ("                                                                                   ███████  ███                           ")
+    print ("                                                                                   ████████████                           ")
+    print ("                                                                                   ████████  ██                           ")
+    print ("                                                                                   █████████___                           ")
+    print ("                                                                             █████████████                                ")
+    print ("                                                                      ██████████████████                                  ")
+    print ("                                                      ██████████████████████████████████                                  ")
+    print ("                                                   █████████████████████████████████████                                  ")
+    print ("                                                ████████████████████████████████████████                                  ")
+    print ("                                             ██████      ████                       █████                                 ")
+    print ("                                           █████         ████                       █████                                 ")
+    print ("                               ██████████████            ████                       █████                                 ")
+    x=input ("hmmmm... what are you doing here? You aren't zack multipleboys are you?\n(1) I am\n(2) I'm not\n")
+    if x=="1" and Race!="zack":
+        print ("realy?")
+        bluff= (CHA-10)+random.choice(aD20); {"1":1,"2":2,"3":3,"4":4,"5":5,"6":6,"7":7,"8":8,"9":9,"10":10,"11":11,"12":12,"13":13,"14":14,"15":15,"16":16,"17":17,"18":18,"19":19,"20":20}
+        dragoninsight=50+random.choice(aD20); {"1":1,"2":2,"3":3,"4":4,"5":5,"6":6,"7":7,"8":8,"9":9,"10":10,"11":11,"12":12,"13":13,"14":14,"15":15,"16":16,"17":17,"18":18,"19":19,"20":20}
+        print (f"Your bluff scored {bluff}, and his insight scored {dragoninsight}")
+        if bluff>=dragoninsight:
+            y=input("I don't like zack, get out or die! \n(1) leave \n(2) fight")
+            if y=="1":
+                print ("you leave")
+            if y=="2":
+                dragonfight="true"
+                mercy="50%"
+        if dragoninsight>bluff:
+            print ("you dare try to lie to me!? you will pay!")
+            dragonfight="true"
+            mercy="80%"
+    if x=="1" and Race=="zack":
+        y=input("I don't like zack, get out or die! \n(1) leave \n(2) fight\n")
+        if y=="1":
+            print ("you leave")
+        if y=="2":
+            dragonfight="true"
+            mercy="50%"
+    if x=="2" and Race!="zack":
+        y=input("... I see, what do you want\n(1) all of your money\n(2) to find a lich\n(3) I just want to kill you\n")
+        if y=="1" or y=="3":
+            dragonfight="true"
+            mercy="0%"
+        elif y=="2":
+            print("What lich?")
+    if x=="2" and Race=="zack":
+        print ("realy?")
+        bluff= (CHA-10)+random.choice(aD20); {"1":1,"2":2,"3":3,"4":4,"5":5,"6":6,"7":7,"8":8,"9":9,"10":10,"11":11,"12":12,"13":13,"14":14,"15":15,"16":16,"17":17,"18":18,"19":19,"20":20}
+        dragoninsight=50+random.choice(aD20); {"1":1,"2":2,"3":3,"4":4,"5":5,"6":6,"7":7,"8":8,"9":9,"10":10,"11":11,"12":12,"13":13,"14":14,"15":15,"16":16,"17":17,"18":18,"19":19,"20":20}
+        print (f"Your bluff scored {bluff}, and his insight scored {dragoninsight}")
+        if bluff>=dragoninsight:
+            y=input("... I see, what do you want (you must have cheated)\n(1) all of your money\n(2) to find a lich\n(3) I just want to kill you\n")
+            if y=="1" or x=="3":
+                dragonfight="true"
+                mercy="0%"
+            elif y=="2":
+                print("What lich?")
+        if dragoninsight>bluff:
+            print ("you dare try to lie to me!? you will pay!")
+            dragonfight="true"
+            mercy="0%"
 
+if wanttoseejunk=="true":
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    print ("                                                                               ██                                         ")
+    print ("                                                                                 ██       █                               ")
+    print ("                                                                                   ██      ██                             ")
+    print ("                                                                                   ████████████                           ")
+    print ("                                                                                   ███████  ███                           ")
+    print ("                                                                                   ████████████                           ")
+    print ("                                                                                   ████████  ██                           ")
+    print ("                                                                                   █████████___                           ")
+    print ("                                                                             █████████████                                ")
+    print ("                                                                      ██████████████████                                  ")
+    print ("                                                      ██████████████████████████████████                                  ")
+    print ("                                                   █████████████████████████████████████                                  ")
+    print ("                                                ████████████████████████████████████████                                  ")
+    print ("                                             ██████      ████                       █████                                 ")
+    print ("                                           █████         ████                       █████                                 ")
+    print ("                               ██████████████            ████                       █████                                 ")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    print ("                                                              █                ██                                         ")
+    print ("                                                             █ █                 ██       █                               ")
+    print ("                                                           █  █ █                  ██      ██                             ")
+    print ("                                                         █    █  █                 ████████████                           ")
+    print ("                                                        █     █   █                ███████  ███                           ")
+    print ("                                                       █      █    █               ████████████                           ")
+    print ("                                                      █       █     █              ████████  ██                           ")
+    print ("                                                     █        █      █             █████████___                           ")
+    print ("                                                    █         █     █  █     █████████████                                ")
+    print ("                                                   █          █       ██████████████████                                  ")
+    print ("                                                      ██████████████████████████████████                                  ")
+    print ("                                                   █████████████████████████████████████                                  ")
+    print ("                                                ████████████████████████████████████████                                  ")
+    print ("                                             ██████      ████                       █████                                 ")
+    print ("                                           █████         ████                       █████                                 ")
+    print ("                               ██████████████            ████                       █████                                 ")
+
+
+
+    print ("                                                                                                                          ")
+    print ("                                                                                                                          ")
+    print ("                                                                                                                          ")
+    print ("                                                                                                                          ")
+    print ("                                                                                                                          ")
+    print ("                                                                                                                          ")
+    print ("                                                                                                                          ")
+    print ("                                                                                                                          ")
+    print ("                                                                                                                          ")
+    print ("                                                                                                                          ")
+    print ("                                                                                                                          ")
+    print ("                                                                                                                          ")
+    print ("                                                                                                                          ")
+    print ("                                                                                                                          ")
+    print ("                                                        ████████████                                                      ")
+    print ("                                                       █            █                                                     ")
+    print ("                                                      █              █                                                    ")
+    print ("                                                      █              █                                                    ")
+    print ("                                                      █              █                                                     ")
+    print ("                                                       █                                                                   ")
+    print ("                                                                                                                          ")
+    print ("                                                                                                                          ")
+    print ("                                                                                                                          ")
+    print ("                                                                                                                          ")
+    print ("                                                                                                                          ")
+    print ("                                                                                                                          ")
+    print ("                                                                                                                          ")
+    print ("                                                                                                                          ")
+    print ("                                                                                                                          ")
+    print ("                                                                                                                          ")
+    print ("                                                                                                                          ")
+    print ("                                                                                                                          ")
+    print ("                                                                                                                          ")
+    print ("                                                                                                                          ")
+    print ("                                                                                                                          ")
+    print ("                                                                                                                          ")
+    print ("                                                                               ██                                         ")
+    print ("                                                                     █████       ██       █                               ")
+    print ("                                                                       ██          ██      ██                             ")
+    print ("                                                                       █           ████████████                           ")
+    print ("                                                                       █           ███████  ███                           ")
+    print ("                                                                        █          ████████████                           ")
+    print ("                                                                         █         ████████  ██                           ")
+    print ("                                                                          █        █████████___                           ")
+    print ("                                                                           █ █████████████                                ")
+    print ("                                                                      ██████████████████                                  ")
+    print ("                                                      ██████████████████████████████████                                  ")
+    print ("                                                   █████████████████████████████████████                                  ")
+    print ("                                                ████████████████████████████████████████                                  ")
+    print ("                                             ██████      ████                       █████                                 ")
+    print ("                                           █████         ████                       █████                                 ")
+    print ("                               ██████████████            ████                       █████                                 ")
